@@ -1,0 +1,59 @@
+{
+    "name": "WORKSPACE_NAME",
+    "type": [
+        "terraform_v0.15"
+    ],
+    "location": "us-south",
+    "description": "Schematics workspace JSON example.",
+    "tags": ["TAG1", "TAG2" ],
+    "resource_group": "RESOURCE_GROUP_ID",
+    "template_repo": {
+        "url": "https://github.com/cloud-design-dev/IBM-Cloud-Schematics-101"
+    },
+    "template_data": [{
+        "folder": "terraform/",
+        "type": "terraform_v0.15",
+        "variablestore": [{
+                "name": "resource_group",
+                "value": "RESOURCE_GROUP_NAME",
+                "type": "string",
+                "description": "RG for project"
+            },
+            {
+                "name": "region",
+                "value": "REGION",
+                "type": "string",
+                "secure": false,
+                "description": "Region for project"
+            },
+            {
+                "name": "project_name",
+                "value": "PROJECT_NAME",
+                "type": "string",
+                "secure": false,
+                "description": "Name for project. It will be prepended to all deployed resources."
+            },
+            {
+                "name": "ssh_key",
+                "value": "SSH_KEY_NAME",
+                "type": "string",
+                "secure": false,
+                "description": "SSH key to inject in to compute instances."
+            },
+            {
+                "name": "allow_ssh_from",
+                "value": "0.0.0.0/0",
+                "type": "string",
+                "secure": false,
+                "description": "An IP, CIDR, or Security Group that will be allowed SSH access to the bastion host."
+            },
+            {
+                "name": "tags",
+                "value": "["TAGS1", "TAG2"]",
+                "type": "list",
+                "secure": false,
+                "description": "Default set of tags to apply to all resources."
+            }
+        ]
+    }]
+}
