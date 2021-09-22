@@ -18,15 +18,15 @@ variable "tags" {}
 variable "zone" {}
 variable "user_data" {}
 variable "allow_ip_spoofing" {
-  type = bool
+  type        = bool
   description = "(Optional, bool) Indicates whether IP spoofing is allowed on this interface."
-  default = false
+  default     = false
 }
 
 variable "force_recovery_time" {
-  type = string 
+  type        = string
   description = "Timeout (in minutes), to force the is_instance to recover from a perpetual `starting` state."
-  default = "30"
+  default     = "30"
 }
 
 variable "security_group_rules" {

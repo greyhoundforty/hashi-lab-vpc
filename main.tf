@@ -43,14 +43,14 @@ module "bastion" {
 }
 
 module "consul_cluster" {
-  depends_on = [module.bastion]
+  depends_on        = [module.bastion]
   count             = length(data.ibm_is_zones.regional_zones.zones)
   source            = "./instance"
   vpc_id            = module.vpc.id
   subnet_id         = module.subnet[count.index].id
   ssh_keys          = [data.ibm_is_ssh_key.regional_key.id]
   resource_group_id = data.ibm_resource_group.project.id
-  security_groups = module.bastion.bastion_maintenance_group_id
+  security_groups   = module.bastion.bastion_maintenance_group_id
   name              = "${var.project_name}-consul-${count.index}"
   zone              = data.ibm_is_zones.regional_zones.zones[count.index]
   tags              = concat(var.tags, ["zone:${data.ibm_is_zones.regional_zones.zones[count.index]}", "region:${var.region}", "project:${var.project_name}", "service:consul"])
