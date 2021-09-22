@@ -42,32 +42,26 @@ module "bastion" {
   tags              = concat(var.tags, ["zone:${data.ibm_is_zones.regional_zones.zones[0]}", "region:${var.region}", "project:${var.project_name}"])
 }
 
-module "security" {
-  source         = "./security"
-  name           = var.project_name
-  resource_group = data.ibm_resource_group.project.id
-  vpc_id         = module.vpc.id
-}
-
 module "consul_cluster" {
+  depends_on = [module.bastion]
   count             = length(data.ibm_is_zones.regional_zones.zones)
-  source            = "git::https://github.com/cloud-design-dev/IBM-Cloud-VPC-Instance-Module.git"
+  source            = "./instance"
   vpc_id            = module.vpc.id
   subnet_id         = module.subnet[count.index].id
   ssh_keys          = [data.ibm_is_ssh_key.regional_key.id]
   resource_group_id = data.ibm_resource_group.project.id
+  security_groups = module.bastion.bastion_maintenance_group_id
   name              = "${var.project_name}-consul-${count.index}"
   zone              = data.ibm_is_zones.regional_zones.zones[count.index]
-  security_groups   = [module.security.consul_security_group]
   tags              = concat(var.tags, ["zone:${data.ibm_is_zones.regional_zones.zones[count.index]}", "region:${var.region}", "project:${var.project_name}", "service:consul"])
   user_data         = file("install.yml")
   allow_ip_spoofing = false
 }
 
-resource "ibm_is_security_group_network_interface_attachment" "under_maintenance" {
-  depends_on        = [module.consul_cluster]
-  count             = 3
-  network_interface = module.consul_cluster[count.index].instance.primary_network_interface.0.id
-  security_group    = module.bastion.bastion_maintenance_group_id
-}
+# resource "ibm_is_security_group_network_interface_attachment" "under_maintenance" {
+#   depends_on        = [module.consul_cluster]
+#   count             = 3
+#   network_interface = module.consul_cluster[count.index].instance.primary_network_interface.0.id
+#   security_group    = module.bastion.bastion_maintenance_group_id
+# }
 
