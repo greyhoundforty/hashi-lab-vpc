@@ -59,7 +59,7 @@ module "consul_cluster" {
   name              = "${var.project_name}-consul-${count.index}"
   zone              = data.ibm_is_zones.regional_zones.zones[count.index]
   security_groups   = [module.security.consul_security_group]
-  tags              = concat(var.tags, ["zone:${data.ibm_is_zones.regional_zones.zones[count.index]}", "region:${var.region}", "project:${var.project_name}"])
+  tags              = concat(var.tags, ["zone:${data.ibm_is_zones.regional_zones.zones[count.index]}", "region:${var.region}", "project:${var.project_name}", "service:consul"])
   user_data         = file("install.yml")
   allow_ip_spoofing = false
 }
