@@ -46,13 +46,6 @@
                 "type": "string",
                 "secure": false,
                 "description": "An IP, CIDR, or Security Group that will be allowed SSH access to the bastion host."
-            },
-            {
-                "name": "tags",
-                "value": "["TAGS1", "TAG2"]",
-                "type": "list",
-                "secure": false,
-                "description": "Default set of tags to apply to all resources."
             }
         ]
     }]
