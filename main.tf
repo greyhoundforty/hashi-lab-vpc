@@ -64,10 +64,8 @@ module "dns" {
   resource_group_id = data.ibm_resource_group.project.id
   instance_ips      = module.hashi_cluster[*].primary_ipv4_address
 }
-# resource "ibm_is_security_group_network_interface_attachment" "under_maintenance" {
-#   depends_on        = [module.consul_cluster]
-#   count             = 3
-#   network_interface = module.consul_cluster[count.index].instance.primary_network_interface.0.id
-#   security_group    = module.bastion.bastion_maintenance_group_id
-# }
+
+module "flowlogs" {
+  source = "./flowlogs"
+}
 
