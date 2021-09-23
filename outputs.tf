@@ -3,7 +3,7 @@ output "vpc" {
 }
 
 output "consul_ips" {
-  value = module.consul_cluster[*].primary_ipv4_address
+  value = module.hashi_cluster[*].primary_ipv4_address
 }
 
 output "bastion_ip" {

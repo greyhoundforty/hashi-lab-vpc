@@ -42,7 +42,7 @@ module "bastion" {
   tags              = concat(var.tags, ["zone:${data.ibm_is_zones.regional_zones.zones[0]}", "region:${var.region}", "project:${var.project_name}"])
 }
 
-module "hashi_instance" {
+module "hashi_cluster" {
   depends_on        = [module.bastion]
   count             = length(data.ibm_is_zones.regional_zones.zones)
   source            = "./instance"
@@ -62,7 +62,7 @@ module "dns" {
   source            = "./dns"
   vpc_id            = module.vpc.id
   resource_group_id = data.ibm_resource_group.project.id
-  instance_ips      = module.consul_cluster[count.index].primary_ipv4_address
+  instance_ips      = module.hashi_cluster[count.index].primary_ipv4_address
 }
 # resource "ibm_is_security_group_network_interface_attachment" "under_maintenance" {
 #   depends_on        = [module.consul_cluster]
