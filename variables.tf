@@ -1,13 +1,13 @@
 variable "region" {
   type        = string
   description = "The region where the VPC resources will be deployed."
-  default     = "eu-gb"
+  default     = ""
 }
 
 variable "ssh_key" {
   type        = string
   description = "The SSH Key that will be added to the compute instances in the region."
-  default     = "hyperion-eu-gb"
+  default     = ""
 }
 
 variable "tags" {
@@ -19,13 +19,13 @@ variable "tags" {
 variable "resource_group" {
   type        = string
   description = "Resource group where resources will be deployed."
-  default     = "CDE"
+  default     = ""
 }
 
 variable "project_name" {
   type        = string
   description = "Name that will be prepended to resources and used as a tag."
-  default     = "hashistack"
+  default     = ""
 }
 
 variable "allow_ssh_from" {
