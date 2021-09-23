@@ -33,3 +33,5 @@ variable "allow_ssh_from" {
   description = "An IP, CIDR, or Security Group that will be allowed SSH access to the bastion host."
   default     = "0.0.0.0/0"
 }
+
+variable "ibmcloud_api_key" {}
