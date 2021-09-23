@@ -59,10 +59,10 @@ module "hashi_instance" {
 }
 
 module "dns" {
-  source = "./dns"
+  source            = "./dns"
   vpc_id            = module.vpc.id
-#  resource_group_id = data.ibm_resource_group.project.id
-#  instance_ips   = module.consul_cluster[count.index].primary_ipv4_address
+  resource_group_id = data.ibm_resource_group.project.id
+  instance_ips      = module.consul_cluster[count.index].primary_ipv4_address
 }
 # resource "ibm_is_security_group_network_interface_attachment" "under_maintenance" {
 #   depends_on        = [module.consul_cluster]
