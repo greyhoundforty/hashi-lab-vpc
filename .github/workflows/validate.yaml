@@ -3,7 +3,7 @@ name: validate
 on:
   push:
     branches:
-    - main
+    - pipeline
     paths-ignore:
     - '**/README.md'
 jobs:
@@ -34,4 +34,4 @@ jobs:
         name: terraform new vpc check
         run: |
           export project_name="test-$CI_COMMIT_SHORT_SHA"
-          terraform plan -var="TF_VAR_IBMCLOUD_API_KEY=${{ secrets.IBMCLOUD_API_KEY }}" -var="region=eu-gb" -var="ssh_key=hyperion-eu-gb" -var="resource_group=CDE"  -var="project_name=$project_name" -out default.tfplan
+          terraform plan -var="ibmcloud_api_key=${{ secrets.IBMCLOUD_API_KEY }}" -var="region=eu-gb" -var="ssh_key=hyperion-eu-gb" -var="resource_group=CDE"  -var="project_name=$project_name" -out default.tfplan
