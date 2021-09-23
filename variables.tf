@@ -31,5 +31,5 @@ variable "project_name" {
 variable "allow_ssh_from" {
   type        = string
   description = "An IP, CIDR, or Security Group that will be allowed SSH access to the bastion host."
-  default     = ""
+  default     = "0.0.0.0/0"
 }
