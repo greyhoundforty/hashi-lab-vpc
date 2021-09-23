@@ -69,3 +69,6 @@ module "flowlogs" {
   source = "./flowlogs"
 }
 
+module "vpn" {
+  source = "./vpn"
+}
