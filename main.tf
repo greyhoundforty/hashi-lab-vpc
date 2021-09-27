@@ -66,7 +66,7 @@ module "hashi_cluster" {
 module "dns" {
   source            = "./dns"
   name              = var.project_name
-  vpc_id            = module.vpc.id
+  vpc_crn            = module.vpc.crn
   resource_group_id = data.ibm_resource_group.project.id
   instance_ips      = module.hashi_cluster[*].primary_ipv4_address
   zones             = data.ibm_is_zones.regional_zones.zones

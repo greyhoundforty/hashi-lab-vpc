@@ -1,4 +1,4 @@
-variable "vpc_id" {}
+variable "vpc_crn" {}
 variable "instance_ips" {}
 variable "resource_group_id" {}
 variable "zones" {}

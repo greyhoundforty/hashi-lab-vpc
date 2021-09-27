@@ -16,7 +16,7 @@ resource "ibm_dns_zone" "zone" {
 resource "ibm_dns_permitted_network" "permitted_network" {
   instance_id = ibm_resource_instance.project_instance.guid
   zone_id     = ibm_dns_zone.zone.zone_id
-  vpc_crn     = var.vpc_id
+  vpc_crn     = var.vpc_crn
   type        = "vpc"
 }
 
