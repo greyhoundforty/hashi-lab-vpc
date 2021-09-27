@@ -66,7 +66,11 @@ module "dns" {
 }
 
 module "flowlogs" {
-  source = "./flowlogs"
+  source        = "./flowlogs"
+  name          = var.project_name
+  cos_instance  = ibm_resource_instance.cos_instance.id
+  bucket_region = var.region
+  subnets       = module.subnets[*].id
 }
 
 module "vpn" {

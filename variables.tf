@@ -35,3 +35,5 @@ variable "allow_ssh_from" {
 }
 
 variable "ibmcloud_api_key" {}
+variable "cos_instance_name" {}
+variable "preshared_key" {}
