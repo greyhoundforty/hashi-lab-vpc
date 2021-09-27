@@ -1,6 +1,6 @@
 resource "ibm_resource_instance" "project_instance" {
-  name              = "${var.project_name}-dns-instance"
-  resource_group_id = var.resource_group
+  name              = "${var.name}-dns-instance"
+  resource_group_id = var.resource_group_id
   location          = "global"
   service           = "dns-svcs"
   plan              = "standard-dns"
@@ -21,11 +21,11 @@ resource "ibm_dns_permitted_network" "permitted_network" {
 }
 
 resource "ibm_dns_resource_record" "hashi" {
-  count       = var.instance_count
+  count       = length(var.zones)
   instance_id = ibm_resource_instance.project_instance.guid
   zone_id     = ibm_dns_zone.zone.zone_id
   type        = "A"
-  name        = "hashi-${count.index + 1}"
+  name        = "hashi-${element(var.zones, count.index)}"
   rdata       = element(var.instance_ips, count.index)
   ttl         = 3600
 }

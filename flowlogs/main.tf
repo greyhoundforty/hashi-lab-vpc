@@ -1,7 +1,7 @@
 resource "ibm_cos_bucket" "flowlogs" {
   bucket_name          = var.bucket_name
   resource_instance_id = var.cos_instance
-  bucket_type          = "standard"
+  storage_class        = "standard"
   region_location      = var.bucket_region
 }
 

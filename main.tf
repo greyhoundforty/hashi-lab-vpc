@@ -1,3 +1,8 @@
+resource "random_id" "bucket" {
+  byte_length = 4
+}
+
+
 module "vpc" {
   source         = "git::https://github.com/cloud-design-dev/IBM-Cloud-VPC-Module.git"
   name           = "${var.project_name}-vpc"
@@ -51,7 +56,7 @@ module "hashi_cluster" {
   ssh_keys          = [data.ibm_is_ssh_key.regional_key.id]
   resource_group_id = data.ibm_resource_group.project.id
   security_groups   = module.bastion.bastion_maintenance_group_id
-  name              = "${var.project_name}-consul-${count.index}"
+  name              = "hashi-${data.ibm_is_zones.regional_zones.zones[count.index]}"
   zone              = data.ibm_is_zones.regional_zones.zones[count.index]
   tags              = concat(var.tags, ["zone:${data.ibm_is_zones.regional_zones.zones[count.index]}", "region:${var.region}", "project:${var.project_name}", "service:consul"])
   user_data         = file("install.yml")
@@ -60,19 +65,29 @@ module "hashi_cluster" {
 
 module "dns" {
   source            = "./dns"
+  name              = var.project_name
   vpc_id            = module.vpc.id
   resource_group_id = data.ibm_resource_group.project.id
   instance_ips      = module.hashi_cluster[*].primary_ipv4_address
+  zones             = data.ibm_is_zones.regional_zones.zones
 }
 
 module "flowlogs" {
+  depends_on    = [module.subnet[0]]
   source        = "./flowlogs"
   name          = var.project_name
-  cos_instance  = ibm_resource_instance.cos_instance.id
+  cos_instance  = data.ibm_resource_instance.cos_instance.id
   bucket_region = var.region
-  subnets       = module.subnets[*].id
+  subnets       = module.subnet[*].id
+  bucket_name   = "${var.project_name}-subnet-collector-bucket-${random_id.bucket.hex}"
 }
 
 module "vpn" {
-  source = "./vpn"
+  source            = "./vpn"
+  name              = var.project_name
+  resource_group_id = data.ibm_resource_group.project.id
+  preshared_key     = var.preshared_key
+  local_cidrs       = var.local_cidrs
+  peer_cidrs        = module.subnet[*].ipv4_cidr_block
+  subnet_id         = module.subnet[0].id
 }

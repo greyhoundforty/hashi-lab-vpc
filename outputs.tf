@@ -9,3 +9,7 @@ output "consul_ips" {
 output "bastion_ip" {
   value = module.bastion.bastion_public_ip
 }
+
+output "vpn_gateway_endpoint" {
+  value = module.vpn.vpn_gateway_endpoint
+}
