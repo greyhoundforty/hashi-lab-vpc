@@ -1,5 +1,5 @@
 resource "random_id" "bucket" {
-  byte_length = 4
+  byte_length = 6
 }
 
 
