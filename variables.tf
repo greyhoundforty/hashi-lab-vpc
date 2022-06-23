@@ -13,7 +13,7 @@ variable "ssh_key" {
 variable "tags" {
   type        = list(string)
   description = "Default set of tags to add to all resources."
-  default     = ["owner:ryantiffany"]
+  default     = ["owner:ryantiffany", "deployment:spacelift"]
 }
 
 variable "resource_group" {
